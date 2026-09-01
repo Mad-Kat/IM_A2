@@ -29,10 +29,11 @@ die Aufgaben.
 
 ## Die Übungen
 
-|     | Woche | Datei                               | Worum es geht    |
-| --- | ----- | ----------------------------------- | ---------------- |
-| C1  | W2    | `Library/SymmetricEncryptor.cs`     | AES im CBC-Modus |
-| C2  | W2    | `Library/AuthenticatedEncryptor.cs` | AES im GCM-Modus |
+|     | Woche | Datei                               | Worum es geht        |
+| --- | ----- | ----------------------------------- | -------------------- |
+| C1  | W2    | `Library/SymmetricEncryptor.cs`     | AES im CBC-Modus     |
+| C2  | W2    | `Library/AuthenticatedEncryptor.cs` | AES im GCM-Modus     |
+| C3  | W4    | `Library/AsymmetricEncryptor.cs`    | RSA und seine Grenze |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -63,6 +64,17 @@ Lassen Sie ihn mit Ausgabe laufen und lesen Sie, was ankommt:
 ```bash
 dotnet test --logger "console;verbosity=detailed"
 ```
+
+### C3, RSA und seine Grenze
+
+Drei `// TODO` in `AsymmetricEncryptor.cs`: das Schlüsselpaar mit 2048 Bit, `Encrypt` und
+`Decrypt`. Welches Padding Sie nehmen, ist Ihre Sache, `RSAEncryptionPadding.OaepSHA256`
+ist die übliche Wahl. Verschlüsseln und entschlüsseln müssen dasselbe nehmen.
+
+Zwei Tests erwarten eine Exception. RSA verschlüsselt nicht beliebig viel: der Klartext
+muss als Zahl kleiner sein als der Modul, und das Padding belegt einen Teil davon.
+32 Byte gehen durch, 256 nicht. Rechnen Sie nach, wie viel Ihr Padding übrig lässt, und
+überlegen Sie, wie Sie damit eine Datei von 4 GB verschlüsseln.
 
 ## Nur eine Übung laufen lassen
 
