@@ -35,6 +35,7 @@ die Aufgaben.
 | C2  | W2    | `Library/AuthenticatedEncryptor.cs` | AES im GCM-Modus           |
 | C3  | W4    | `Library/AsymmetricEncryptor.cs`    | RSA und seine Grenze       |
 | C4  | W5    | `Library/Signer.cs`                 | Signieren und Verifizieren |
+| C5  | W6    | `Library/Hasher.cs`                 | SHA-256 gegen PBKDF2       |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -85,6 +86,21 @@ mit `Pss` sind beide richtig, solange `Sign` und `Verify` dasselbe nehmen.
 
 Der interessante Test heisst `ThePublicKeyVerifiesButCannotSign`. Er exportiert nur den
 öffentlichen Schlüssel und versucht damit beides.
+
+### C5, wie langsam ist langsam genug
+
+In `Hasher.cs` fehlt eine Zeile, `Hash` gibt SHA-256 als Hex zurück. Welcher Wert erwartet
+wird, steht im Test.
+
+Dazu kommen zwei Messungen in `PasswordSpeedTests`. Die gehören in eine
+Release-Konfiguration, sonst messen Sie den Debugger:
+
+```bash
+dotnet test -c Release --logger "console;verbosity=detailed"
+```
+
+Bilden Sie den Faktor zwischen den beiden Zahlen und überlegen Sie, was er für einen
+Angreifer mit einer Wortliste bedeutet.
 
 ## Nur eine Übung laufen lassen
 
