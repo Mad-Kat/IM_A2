@@ -29,11 +29,12 @@ die Aufgaben.
 
 ## Die Übungen
 
-|     | Woche | Datei                               | Worum es geht        |
-| --- | ----- | ----------------------------------- | -------------------- |
-| C1  | W2    | `Library/SymmetricEncryptor.cs`     | AES im CBC-Modus     |
-| C2  | W2    | `Library/AuthenticatedEncryptor.cs` | AES im GCM-Modus     |
-| C3  | W4    | `Library/AsymmetricEncryptor.cs`    | RSA und seine Grenze |
+|     | Woche | Datei                               | Worum es geht              |
+| --- | ----- | ----------------------------------- | -------------------------- |
+| C1  | W2    | `Library/SymmetricEncryptor.cs`     | AES im CBC-Modus           |
+| C2  | W2    | `Library/AuthenticatedEncryptor.cs` | AES im GCM-Modus           |
+| C3  | W4    | `Library/AsymmetricEncryptor.cs`    | RSA und seine Grenze       |
+| C4  | W5    | `Library/Signer.cs`                 | Signieren und Verifizieren |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -75,6 +76,15 @@ Zwei Tests erwarten eine Exception. RSA verschlüsselt nicht beliebig viel: der 
 muss als Zahl kleiner sein als der Modul, und das Padding belegt einen Teil davon.
 32 Byte gehen durch, 256 nicht. Rechnen Sie nach, wie viel Ihr Padding übrig lässt, und
 überlegen Sie, wie Sie damit eine Datei von 4 GB verschlüsseln.
+
+### C4, signieren und verifizieren
+
+Zwei `// TODO` in `Signer.cs`. Signiert wird mit dem privaten Schlüssel, geprüft mit dem
+öffentlichen. Hash und Padding wählen Sie, SHA-256 mit `RSASignaturePadding.Pkcs1` oder
+mit `Pss` sind beide richtig, solange `Sign` und `Verify` dasselbe nehmen.
+
+Der interessante Test heisst `ThePublicKeyVerifiesButCannotSign`. Er exportiert nur den
+öffentlichen Schlüssel und versucht damit beides.
 
 ## Nur eine Übung laufen lassen
 
