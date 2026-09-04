@@ -38,6 +38,7 @@ die Aufgaben.
 | C5  | W6    | `Library/Hasher.cs`                 | SHA-256 gegen PBKDF2       |
 | B1  | W8    | `Library/Block.cs`                  | Der Hash eines Blocks      |
 | B2  | W9    | `Library/Miner.cs`                  | Einen Block teuer machen   |
+| B3  | W10   | `Library/Wallet.cs`, `Transaction.cs` | Wer darf ausgeben        |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -130,6 +131,17 @@ dotnet test --filter MiningEffortTests --logger "console;verbosity=detailed"
 
 Bilden Sie den Faktor von einer Null zur nächsten und überlegen Sie, was er für einen
 Angreifer bedeutet, der eine ganze Kette neu schreiben will.
+
+### B3, wer darf ausgeben
+
+Zwei `// TODO`. In `Wallet.cs` signiert `Send` die Transaktion mit dem privaten Schlüssel
+der Wallet, in `Transaction.cs` prüft `IsValid` die Signatur mit dem öffentlichen Schlüssel,
+der als Absender in der Transaktion steht. Beides mit `ECDsa` und SHA-256, wie `Signer`
+in C4, nur mit einer elliptischen Kurve statt RSA.
+
+Der interessante Test heisst `OnlyTheOwnerOfTheKeyCanSign`. Mallory baut eine Transaktion
+mit Alices Schlüssel als Absender und signiert sie mit ihrem eigenen. Überlegen Sie, was
+sie stattdessen bräuchte und wo das bei einer echten Wallet liegt.
 
 ## Nur eine Übung laufen lassen
 
