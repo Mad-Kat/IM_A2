@@ -37,6 +37,7 @@ die Aufgaben.
 | C4  | W5    | `Library/Signer.cs`                 | Signieren und Verifizieren |
 | C5  | W6    | `Library/Hasher.cs`                 | SHA-256 gegen PBKDF2       |
 | B1  | W8    | `Library/Block.cs`                  | Der Hash eines Blocks      |
+| B2  | W9    | `Library/Miner.cs`                  | Einen Block teuer machen   |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -114,6 +115,21 @@ Der interessante Test heisst `ChangingABlockBreaksTheLinkToItsSuccessor`. Er än
 Block 1, lässt Block 2 unangetastet und schaut, woran man das sieht. Überlegen Sie
 danach, was ein Angreifer tun müsste, damit die Kette wieder aufgeht, und was ihn
 daran hindert. Die zweite Frage beantwortet W9.
+
+### B2, einen Block teuer machen
+
+`Miner.cs` soll die Nonce eines Blocks so lange hochzählen, bis sein Hash mit der
+verlangten Zahl Nullen beginnt. Eine Schleife um `ComputeHash` aus B1, ein paar Zeilen.
+
+Dazu kommt `MiningEffortTests`. Es minet je zehn Blöcke mit drei, vier und fünf Nullen
+und gibt aus, wie viele Versuche ein Block im Schnitt gebraucht hat:
+
+```bash
+dotnet test --filter MiningEffortTests --logger "console;verbosity=detailed"
+```
+
+Bilden Sie den Faktor von einer Null zur nächsten und überlegen Sie, was er für einen
+Angreifer bedeutet, der eine ganze Kette neu schreiben will.
 
 ## Nur eine Übung laufen lassen
 
