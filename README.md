@@ -1,6 +1,6 @@
 # IM_A2 Kryptologie, Coding-Übungen
 
-Kleine Übungen zu Block 1 des Moduls IM_A2 an der HF Zug. Es kommen im Lauf des Blocks
+Kleine Übungen zu Block 1 und 2 des Moduls IM_A2 an der HF Zug. Es kommen im Lauf des Blocks
 weitere dazu, `git pull` holt sie.
 
 Die Tests sind der Auftrag. Ein roter Test sagt, was fehlt, ein grüner, dass es stimmt.
@@ -36,6 +36,7 @@ die Aufgaben.
 | C3  | W4    | `Library/AsymmetricEncryptor.cs`    | RSA und seine Grenze       |
 | C4  | W5    | `Library/Signer.cs`                 | Signieren und Verifizieren |
 | C5  | W6    | `Library/Hasher.cs`                 | SHA-256 gegen PBKDF2       |
+| B1  | W8    | `Library/Block.cs`                  | Der Hash eines Blocks      |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -102,6 +103,18 @@ dotnet test -c Release --logger "console;verbosity=detailed"
 Bilden Sie den Faktor zwischen den beiden Zahlen und überlegen Sie, was er für einen
 Angreifer mit einer Wortliste bedeutet.
 
+### B1, der Hash eines Blocks
+
+Block 2 des Moduls, die Blockchain. `Block.cs` kennt Index, Zeitstempel, Vorgänger-Hash,
+Nonce und Daten und setzt daraus einen Text zusammen. `ComputeHash` soll SHA-256 darüber
+als Hex zurückgeben, eine Zeile, wie in C5. Die Nonce bleibt in dieser Übung auf 0, ihre
+Aufgabe bekommt sie in B2.
+
+Der interessante Test heisst `ChangingABlockBreaksTheLinkToItsSuccessor`. Er ändert
+Block 1, lässt Block 2 unangetastet und schaut, woran man das sieht. Überlegen Sie
+danach, was ein Angreifer tun müsste, damit die Kette wieder aufgeht, und was ihn
+daran hindert. Die zweite Frage beantwortet W9.
+
 ## Nur eine Übung laufen lassen
 
 ```bash
@@ -129,7 +142,7 @@ Schauen Sie erst hin, wenn Sie es selbst versucht haben.
 ## Aufbau
 
 ```
-Library/          die fünf Klassen, hier arbeiten Sie
+Library/          die Klassen, hier arbeiten Sie
 Library.Tests/    die Tests, die brauchen Sie nicht anzufassen
 ```
 
