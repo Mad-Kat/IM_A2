@@ -39,6 +39,7 @@ die Aufgaben.
 | B1  | W8    | `Library/Block.cs`                  | Der Hash eines Blocks      |
 | B2  | W9    | `Library/Miner.cs`                  | Einen Block teuer machen   |
 | B3  | W10   | `Library/Wallet.cs`, `Transaction.cs` | Wer darf ausgeben        |
+| B4  | W11   | `Library/Chain.cs`                  | Die Kette prüfen           |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -142,6 +143,18 @@ in C4, nur mit einer elliptischen Kurve statt RSA.
 Der interessante Test heisst `OnlyTheOwnerOfTheKeyCanSign`. Mallory baut eine Transaktion
 mit Alices Schlüssel als Absender und signiert sie mit ihrem eigenen. Überlegen Sie, was
 sie stattdessen bräuchte und wo das bei einer echten Wallet liegt.
+
+### B4, die Kette prüfen
+
+`Chain.cs` hängt Blöcke aneinander, das ist schon da. Zwei `// TODO`: `IsValid` geht die
+Kette durch und prüft, ob jeder Block auf den Hash seines Vorgängers zeigt, und
+`MerkleRoot` fasst eine Liste von Transaktionen paarweise zu einem Wert zusammen, wie auf
+dem Blatt aus W8, nur mit ganzen Hashes.
+
+Der interessante Test heisst `ChangingAnOldBlockInvalidatesTheChain`. Er ändert einen
+Block in der Mitte und erwartet, dass die Kette ungültig wird, obwohl kein Test je einen
+Hash gespeichert hat. Überlegen Sie, warum ein Block hier keinen gespeicherten Hash
+haben darf.
 
 ## Nur eine Übung laufen lassen
 
