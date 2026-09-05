@@ -40,6 +40,7 @@ die Aufgaben.
 | B2  | W9    | `Library/Miner.cs`                  | Einen Block teuer machen   |
 | B3  | W10   | `Library/Wallet.cs`, `Transaction.cs` | Wer darf ausgeben        |
 | B4  | W11   | `Library/Chain.cs`                  | Die Kette prüfen           |
+| B5  | W12   | `Library/Chain.cs`                  | Die Kette läuft            |
 
 Im Code steht an den offenen Stellen `// TODO: implement`. Was dort hingehört, sagen die
 Tests. Die Testdateien selbst bleiben unverändert, es gibt keine Aufgabe, bei der Sie
@@ -155,6 +156,18 @@ Der interessante Test heisst `ChangingAnOldBlockInvalidatesTheChain`. Er ändert
 Block in der Mitte und erwartet, dass die Kette ungültig wird, obwohl kein Test je einen
 Hash gespeichert hat. Überlegen Sie, warum ein Block hier keinen gespeicherten Hash
 haben darf.
+
+### B5, die Kette läuft
+
+Alles zusammen. Zwei `// TODO` in `Chain.cs`. `Mine` nimmt signierte Transaktionen, weist
+die zurück, deren Signatur nicht stimmt, schreibt die Merkle-Root der übrigen als Daten in
+einen neuen Block, sucht die Nonce mit dem `Miner` aus B2 und hängt den Block an.
+`IsValid(difficulty)` prüft danach alles auf einmal: die Verkettung aus B4, die Nullen aus
+B2, die Signaturen aus B3 und die Merkle-Root über die Transaktionen.
+
+Der interessante Test heisst `RewritingOneBlockIsNotEnough`. Ein Angreifer ändert einen
+alten Block und leistet die Arbeit dafür noch einmal. Überlegen Sie, warum das nicht
+reicht, und was die Kette über Alices Guthaben weiss, bevor sie 0.5 an Bob schickt.
 
 ## Nur eine Übung laufen lassen
 

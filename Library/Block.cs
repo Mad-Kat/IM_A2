@@ -4,7 +4,7 @@ using System.Text;
 namespace Library;
 
 /// <summary>
-/// One block of a chain. Exercise B1.
+/// One block of a chain. Exercise B1, transactions since B5.
 /// </summary>
 // What this exercise was about.
 //
@@ -38,6 +38,8 @@ public class Block
     public long Nonce { get; set; }
 
     public string Data { get; set; }
+
+    public IReadOnlyList<Transaction> Transactions { get; init; } = [];
 
     public string ComputeHash()
     {

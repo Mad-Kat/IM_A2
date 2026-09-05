@@ -4,7 +4,7 @@ using System.Text;
 namespace Library;
 
 /// <summary>
-/// A chain of blocks. Exercise B4.
+/// A chain of blocks. Exercise B4, mining since B5.
 /// </summary>
 // What this exercise was about.
 //
@@ -22,6 +22,17 @@ namespace Library;
 // What is still missing is the part that makes rewriting expensive: nothing here
 // checks the leading zeros from B2, and nothing checks the signatures from B3. B5
 // puts the pieces together.
+//
+// B5 puts them together. Mine refuses a transaction whose signature does not verify,
+// writes the Merkle root of the accepted ones into the block, and searches the nonce.
+// IsValid with a difficulty then checks all four things at once: the links from B4,
+// the leading zeros from B2, the signatures from B3 and the root over the contents.
+// RewritingOneBlockIsNotEnough shows why this is a blockchain and B1 was a list: the
+// attacker redoes the work for one block and is still caught by the next one.
+//
+// What the chain still does not know is whether Alice owns the 0.5 she sends. There
+// are no balances here. That is the UTXO set of week 10, or the account state of
+// week 11, and it is the difference between a signed message and money.
 public class Chain
 {
     private readonly List<Block> blocks = [new Block(0, 0, new string('0', 64), "Genesis")];
@@ -44,6 +55,58 @@ public class Chain
         {
             var block = this.blocks[i];
             if (block.Index != i || block.PreviousHash != this.blocks[i - 1].ComputeHash())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Block Mine(IReadOnlyList<Transaction> transactions, int difficulty, long timestamp)
+    {
+        if (transactions.Any(transaction => !transaction.IsValid()))
+        {
+            throw new ArgumentException(
+                "A transaction is not validly signed.",
+                nameof(transactions)
+            );
+        }
+
+        var root = MerkleRoot(transactions.Select(transaction => transaction.Content).ToList());
+        var block = new Block(this.Tip.Index + 1, timestamp, this.Tip.ComputeHash(), root)
+        {
+            Transactions = transactions,
+        };
+        new Miner().Mine(block, difficulty);
+        this.blocks.Add(block);
+
+        return block;
+    }
+
+    public bool IsValid(int difficulty)
+    {
+        var target = new string('0', difficulty);
+
+        if (!this.IsValid())
+        {
+            return false;
+        }
+
+        foreach (var block in this.blocks.Skip(1))
+        {
+            if (!block.ComputeHash().StartsWith(target, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            if (block.Transactions.Any(transaction => !transaction.IsValid()))
+            {
+                return false;
+            }
+
+            var contents = block.Transactions.Select(transaction => transaction.Content).ToList();
+            if (contents.Count > 0 && block.Data != MerkleRoot(contents))
             {
                 return false;
             }
