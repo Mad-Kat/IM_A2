@@ -4,7 +4,7 @@ using System.Text;
 namespace Library;
 
 /// <summary>
-/// A chain of blocks. Exercise B4.
+/// A chain of blocks. Exercise B4, mining since B5.
 /// </summary>
 public class Chain
 {
@@ -24,6 +24,20 @@ public class Chain
 
     public bool IsValid()
     {
+        // TODO: implement
+        return false;
+    }
+
+    public Block Mine(IReadOnlyList<Transaction> transactions, int difficulty, long timestamp)
+    {
+        // TODO: implement
+        throw new NotImplementedException();
+    }
+
+    public bool IsValid(int difficulty)
+    {
+        var target = new string('0', difficulty);
+
         // TODO: implement
         return false;
     }
